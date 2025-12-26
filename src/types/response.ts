@@ -1,23 +1,22 @@
-import type { Pagination } from './api';
+import type { Pagination } from './api'
 
 export interface BasicApiResponse {
-  errors?: string;
+  errors?: string
 }
 
 export interface APIResponse<T> {
-  items: T[];
-  pagination: Pagination;
+  items: T[]
+  pagination: Pagination
 }
 
 export interface APIResponseError {
-  statusCode?: number;
-  success: boolean;
-  message: string;
+  success: boolean
+  message: string
 }
 
 export interface APIResponseStandard<T = any> {
-  data: T;
-  statusCode?: number;
-  success: boolean;
-  message: string;
+  data: T
+  pagination?: Pagination
+  success: boolean
+  message: string
 }

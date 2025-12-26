@@ -17,7 +17,9 @@ export type APIConfig<T> = {
 };
 
 export interface Pagination {
-  page: number;
-  perPage: number;
+  current_page: number;
+  last_page: number;
+  per_page: number;
   total: number;
 }
+

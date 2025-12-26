@@ -1,5 +1,5 @@
 {
-  "name": "tasks-client",
+  "name": "Task Management System",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,10 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
     "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "antd": "^6.1.1",
     "axios": "^1.13.2",
     "dayjs": "^1.11.19",
     "jwt-decode": "^4.0.0",
