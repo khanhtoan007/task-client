@@ -16,5 +16,6 @@ export const createProject = async (
   data: ProjectRequest
 ): Promise<APIResponseStandard<ProjectResponse>> => {
   const response = await apiClient.post<APIResponseStandard<ProjectResponse>>('/projects', data)
+  console.log(response)
   return response.data
 }

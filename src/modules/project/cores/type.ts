@@ -18,7 +18,11 @@ export interface ProjectResponse {
   id: string
   name: string
   description: string
-  created_by: string
+  created_by: {
+    id: string
+    name: string
+    email: string
+  }
   status: ProjectStatus
   start_date: string
   end_date: string

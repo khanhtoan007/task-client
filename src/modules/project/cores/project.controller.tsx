@@ -5,6 +5,8 @@ import type { APIResponseStandard } from '@/types'
 import { Tag } from 'antd'
 import type { ColumnProps } from 'antd/es/table'
 import { ProjectStatus } from './type'
+import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 export const useProjectController = () => {
   const [projects, setProjects] = useState<ProjectResponse[]>([])
@@ -66,6 +68,12 @@ export const useProjectController = () => {
 
   const columns: ColumnProps<ProjectResponse>[] = [
     {
+      title: 'Created At',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (created_at: string) => dayjs(created_at).format('DD/MM/YYYY'),
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -84,14 +92,12 @@ export const useProjectController = () => {
       ),
     },
     {
-      title: 'Created At',
-      dataIndex: 'created_at',
-      key: 'created_at',
-    },
-    {
       title: 'Lead',
-      dataIndex: 'created_by',
-      key: 'created_by',
+      dataIndex: 'created_by.name',
+      key: 'created_by.name',
+      render: (_, record: ProjectResponse) => (
+        <Link to={`/users/${record.created_by.id}`}>{record.created_by.name}</Link>
+      ),
     },
   ]
 

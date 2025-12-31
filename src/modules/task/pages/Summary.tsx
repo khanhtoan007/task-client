@@ -2,11 +2,7 @@ import { Card, Flex, Typography, Row, Col } from 'antd'
 
 export const Summary = () => {
   return (
-    <Flex vertical gap="large">
-      <Card>
-        <Typography.Title level={2}>Summary</Typography.Title>
-      </Card>
-
+    <Flex vertical gap="middle">
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} lg={8}>
           <Card>
