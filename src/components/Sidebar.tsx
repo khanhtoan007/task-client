@@ -1,12 +1,12 @@
 import { Menu, Avatar, Button, Flex, Divider, Space, theme, Dropdown, Typography } from 'antd'
 import type { MenuProps } from 'antd'
 import { ProjectOutlined, UserOutlined, LogoutOutlined, ProfileOutlined } from '@ant-design/icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useThemeStore } from '@/hooks/useThemeStore'
 import { useSidebarStore } from './cores/sidebar-store'
 import { useAuthStore } from '@/hooks/useAuthStore'
 import { logout as logoutService } from '@/modules/auth/services/auth.service'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import type { CSSProperties } from 'react'
 
 const { Text } = Typography
@@ -19,7 +19,17 @@ export const Sidebar = () => {
   const { userProfile } = useSidebarStore()
   const { logout } = useAuthStore()
   const navigate = useNavigate()
+  const location = useLocation()
   const [selectedKey, setSelectedKey] = useState<string>('projects')
+
+  useEffect(() => {
+    const path = location.pathname
+    if (path.includes('/contest_users')) {
+      setSelectedKey('contest_users')
+    } else if (path.includes('/projects')) {
+      setSelectedKey('projects')
+    }
+  }, [location.pathname])
 
   const menuItems: MenuItem[] = [
     {
@@ -27,10 +37,20 @@ export const Sidebar = () => {
       icon: <ProjectOutlined />,
       label: 'Projects',
     },
+    {
+      key: 'contest_users',
+      icon: <UserOutlined />,
+      label: 'Contest Users',
+    }
   ]
 
   const handleMenuClick = ({ key }: { key: string }) => {
     setSelectedKey(key)
+    if (key === 'projects') {
+      navigate('/projects')
+    } else if (key === 'contest_users') {
+      navigate('/contest_users')
+    }
   }
 
   const handleLogout = async () => {

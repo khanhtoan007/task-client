@@ -2,12 +2,13 @@ import { Card, Flex, Typography, Row, Col, Space, Spin } from 'antd'
 import { useEffect, useState } from 'react'
 import { TaskStatus, type TaskResponse } from '../cores/type'
 import { boardController } from '../cores/board.controller'
+import { useParams } from 'react-router-dom'
 
 export const Board = () => {
   const [tasks, setTasks] = useState<TaskResponse[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [groupedTasks, setGroupedTasks] = useState(boardController.groupTasksByStatus([]))
-
+  const { id: project_id } = useParams<{ id: string }>()
   const statuses = [
     { key: TaskStatus.PENDING, label: 'Pending' },
     { key: TaskStatus.PROCESSING, label: 'Processing' },
@@ -19,7 +20,7 @@ export const Board = () => {
     const loadTasks = async () => {
       setIsLoading(true)
       try {
-        const fetchedTasks = await boardController.fetchTasks()
+        const fetchedTasks = await boardController.fetchTasks(project_id || '')
         setTasks(fetchedTasks)
         setGroupedTasks(boardController.groupTasksByStatus(fetchedTasks))
       } catch (error) {

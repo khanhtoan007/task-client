@@ -5,22 +5,26 @@ import { PrivateRoutes } from './PrivateRoutes'
 import { LoginPage } from '@/modules/auth/pages/Login'
 import { RegisterPage } from '@/modules/auth/pages/Register'
 import { Project } from '@/modules/project/pages/Project'
+import { User } from '@/modules/users/pages/User'
 import { Summary } from '@/modules/task/pages/Summary'
 import { Timeline } from '@/modules/task/pages/Timeline'
 import { Board } from '@/modules/task/pages/Board'
 
 import App from '../App'
+import { ToastProvider } from '@/components/ToastProvider'
 
 export const AppRoutes = () => {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <ToastProvider />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
           <Route path="/" element={<App />}>
             <Route path="projects" element={<Project />} />
+            <Route path="contest_users" element={<User />} />
             <Route path="projects/:id" element={<PrivateLayout />}>
               <Route index element={<Navigate to="summary" replace />} />
               <Route path="summary" element={<Summary />} />

@@ -3,6 +3,7 @@ import { MoonOutlined, SunOutlined } from '@ant-design/icons'
 import { theme } from 'antd'
 import { useThemeStore } from '@/hooks/useThemeStore'
 import type { CSSProperties } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const { Title } = Typography
 const { Header: LayoutHeader } = Layout
@@ -12,7 +13,7 @@ const { useToken } = theme
 export const Header = () => {
   const { token } = useToken()
   const { isDark, toggleTheme } = useThemeStore()
-
+  const navigate = useNavigate()
   const handleSearch = (value: string) => {
     console.log('Search:', value)
   }
@@ -33,7 +34,7 @@ export const Header = () => {
   return (
     <LayoutHeader style={headerStyle}>
       <Flex align="center" gap={16}>
-        <Space size={8}>
+        <Space size={8} style={{ cursor: 'pointer' }} onClick={() => navigate('/projects')}>
           <div
             style={{
               width: 32,

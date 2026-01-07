@@ -1,6 +1,7 @@
 'use client'
 
 import { Modal, Form, Input, Select, DatePicker, Button } from 'antd'
+import { useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import type { ProjectRequest } from '../cores/type'
 import { ProjectStatus } from '../cores/type'
@@ -11,13 +12,17 @@ const { TextArea } = Input
 interface CreateProjectModalProps {
   isModalOpen: boolean
   closeModal: () => void
-  handleSubmit: (data: ProjectRequest) => Promise<void>
+  handleSubmit: (data: ProjectRequest, id?: string) => Promise<void>
+  mode?: 'create' | 'edit'
+  initialValues?: Partial<ProjectRequest> & { id?: string }
 }
 
 export const CreateProjectModal = ({
   isModalOpen,
   closeModal,
   handleSubmit: onSubmit,
+  mode = 'create',
+  initialValues,
 }: CreateProjectModalProps) => {
   const {
     control,
@@ -28,13 +33,26 @@ export const CreateProjectModal = ({
     defaultValues: {
       name: '',
       description: '',
+      status: '',
       start_date: '',
       end_date: '',
     },
   })
 
+  useEffect(() => {
+    if (isModalOpen) {
+      reset({
+        name: initialValues?.name || '',
+        description: initialValues?.description || '',
+        status: (initialValues?.status as string) || '',
+        start_date: initialValues?.start_date || '',
+        end_date: initialValues?.end_date || '',
+      })
+    }
+  }, [initialValues, isModalOpen, reset])
+
   const handleFormSubmit = async (data: ProjectRequest) => {
-    await onSubmit(data)
+    await onSubmit(data, initialValues?.id)
     reset()
   }
 
@@ -44,7 +62,13 @@ export const CreateProjectModal = ({
   }
 
   return (
-    <Modal title="Add Project" open={isModalOpen} onCancel={handleCancel} footer={null} width={600}>
+    <Modal
+      title={mode === 'edit' ? 'Edit Project' : 'Add Project'}
+      open={isModalOpen}
+      onCancel={handleCancel}
+      footer={null}
+      width={600}
+    >
       <Form layout="vertical" onFinish={handleSubmit(handleFormSubmit) as any}>
         <Form.Item
           label="Project Name"
@@ -88,7 +112,7 @@ export const CreateProjectModal = ({
               <Select {...field} placeholder="Select status" size="large" style={{ width: '100%' }}>
                 <Select.Option value={ProjectStatus.DRAFT}>Draft</Select.Option>
                 <Select.Option value={ProjectStatus.ACTIVE}>Active</Select.Option>
-                <Select.Option value={ProjectStatus.INACTIVE}>Inactive</Select.Option>
+                <Select.Option value={ProjectStatus.ON_HOLD}>On Hold</Select.Option>
                 <Select.Option value={ProjectStatus.COMPLETED}>Completed</Select.Option>
                 <Select.Option value={ProjectStatus.CANCELLED}>Cancelled</Select.Option>
               </Select>
@@ -146,7 +170,7 @@ export const CreateProjectModal = ({
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
             <Button onClick={handleCancel}>Cancel</Button>
             <Button type="primary" htmlType="submit" loading={isSubmitting}>
-              Create Project
+              {mode === 'edit' ? 'Save Changes' : 'Create Project'}
             </Button>
           </div>
         </Form.Item>

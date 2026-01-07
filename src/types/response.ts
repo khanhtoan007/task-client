@@ -15,8 +15,22 @@ export interface APIResponseError {
 }
 
 export interface APIResponseStandard<T = any> {
-  data: T
-  pagination?: Pagination
   success: boolean
   message: string
+  data: T
+  pagination?: Pagination
+}
+
+export interface PaginatedApiResponse<T = any> {
+  success: boolean
+  message: string
+  data: T[]
+  pagination: {
+    page: number
+    per_page: number
+    total: number
+    last_page: number
+    from: number
+    to: number
+  }
 }

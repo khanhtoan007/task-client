@@ -27,7 +27,7 @@ export const LoginPage = () => {
     try {
       await login(data)
       toast.success('Login successful!')
-      navigate('/')
+      navigate('/projects')
     } catch {
       const error = useAuthStore.getState().error
       toast.error(error || 'Login failed. Please try again.')

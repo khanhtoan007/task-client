@@ -8,7 +8,7 @@ export interface GroupedTasks {
 }
 
 export interface BoardController {
-  fetchTasks: () => Promise<TaskResponse[]>
+  fetchTasks: (project_id: string) => Promise<TaskResponse[]>
   groupTasksByStatus: (tasks: TaskResponse[]) => GroupedTasks
   getTaskCountByStatus: (tasks: TaskResponse[], status: string) => number
 }
@@ -17,9 +17,9 @@ export const boardController: BoardController = {
   /**
    * Fetch all tasks from the API
    */
-  fetchTasks: async (): Promise<TaskResponse[]> => {
+  fetchTasks: async (project_id: string): Promise<TaskResponse[]> => {
     try {
-      const response = await getTasks()
+      const response = await getTasks(project_id) 
       if (response.success && response.data) {
         // Check if data has items property (paginated response)
         const data = response.data as unknown as APIResponse<TaskResponse>

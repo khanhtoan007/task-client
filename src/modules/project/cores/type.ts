@@ -1,16 +1,23 @@
 export interface ProjectStatus {
   DRAFT: string
   ACTIVE: string
-  INACTIVE: string
+  ON_HOLD: string
+  ARCHIVED: string
   COMPLETED: string
   CANCELLED: string
 }
-
+//    case DRAFT = 'draft';
+// case ACTIVE = 'active';
+// case ON_HOLD = 'on_hold';
+// case COMPLETED = 'completed';
+// case ARCHIVED = 'archived';
+// case CANCELLED = 'cancelled';
 export const ProjectStatus: ProjectStatus = {
   DRAFT: 'draft',
   ACTIVE: 'active',
-  INACTIVE: 'inactive',
+  ON_HOLD: 'on_hold',
   COMPLETED: 'completed',
+  ARCHIVED: 'archived',
   CANCELLED: 'cancelled',
 }
 
@@ -33,7 +40,7 @@ export interface ProjectResponse {
 export interface ProjectRequest {
   name: string
   description: string
-  status?: ProjectStatus
+  status: ProjectStatus | string
   start_date: string
   end_date: string
 }
